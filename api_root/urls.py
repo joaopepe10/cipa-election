@@ -23,6 +23,8 @@ from users.api import viewsets as userviewsets
 router = routers.DefaultRouter()
 
 router.register(r'users', userviewsets.UserViewSet, basename='Users')
+router.register(r'candidates', userviewsets.UserViewSet, basename='Candidates')
+router.register(r'elections', userviewsets.UserViewSet, basename='Elections')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
