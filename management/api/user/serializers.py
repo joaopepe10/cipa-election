@@ -9,4 +9,4 @@ class UserSerializer(serializers.ModelSerializer):
 class CandidateSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Candidate
-        fields = ['user', 'speech']
+        fields = ['speech']
