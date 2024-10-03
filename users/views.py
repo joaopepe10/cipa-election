@@ -21,3 +21,26 @@ def get_users(request):
         return Response(serializer.data)  # Return the serialized data
 
     return Response(status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def get_user_by_id(request, id):
+    if request.method == 'GET':
+        try:
+            user = models.User.objects.get(user_id=id)
+            serializer = UserSerializer(user)
+            return Response(serializer.data)
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['GET', 'POST', 'PUT', 'DELETE'])
+def user(request):
+    if request.method == 'POST':
+        new_user = request.data
+        serializer = UserSerializer(data=new_user)
+
+        if serializer.is_valid():
+            serializer.save()
+            response = {'msg': 'User created successfully'}
+            return Response(response, status=status.HTTP_201_CREATED)
+        return Response('Ocorreu um erro', status=status.HTTP_400_BAD_REQUEST)
