@@ -24,11 +24,11 @@ class User(models.Model):
 class Candidate(models.Model):
     candidate_id = models.IntegerField(primary_key=True, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='candidate_user', db_column='user_id')
-    speech = models.TextField(db_column='discurso')
-    registration_date = models.DateTimeField(default=timezone.now, db_column='data_inscricao')
+    speech = models.TextField()
+    registration_date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return f"Candidate {self.user.name}"
+        return f"Nome Candidato: {self.user.name}, Discurso: {self.speech}, Data inscricao: {self.registration_date}"
 
 class Election(models.Model):
     election_id = models.IntegerField(primary_key=True, editable=False)
