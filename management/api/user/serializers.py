@@ -11,8 +11,14 @@ class CandidateRequestSerializer(serializers.ModelSerializer):
         model = models.Candidate
         fields = ['speech']
 
+
+
 class CandidateResponseSerializer(serializers.ModelSerializer):
-    # Permitir valores nulos e campos opcionais
+    user = UserSerializer(read_only=True)
     class Meta:
         model = models.Candidate
-        fields = ['speech', 'user']
+        fields = ['candidate_id','speech', 'user', 'registration_date']
+        def clean(self, value):
+         if models.Candidate.objects.filter(user=value).exists():
+            raise serializers.ValidationError("Este usuário já possui um candidato.")
+         return value

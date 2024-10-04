@@ -41,22 +41,17 @@ def user(request):
 def apply_candidate(request, id):
     if request.method == 'POST':
         try:
-            user_request = models.User.objects.get(user_id=id)
-
-            if user_request is None:
+            user = models.User.objects.get(user_id=id)
+            if user is None:
                 return Response(f"User with id not found {id}", status=status.HTTP_404_NOT_FOUND)
 
-            # Usar o DTO de entrada para validação
             serializer = CandidateRequestSerializer(data=request.data)
-
             if serializer.is_valid():
                 # Cria o candidato com os dados validados e o user
-                candidate = serializer.save(user=user_request)
-                candidate_response = CandidateResponseSerializer(candidate)  # Sem 'data'
+                candidate = serializer.save(user=user)
+                candidate_response = CandidateResponseSerializer(candidate)
                 return Response(candidate_response.data, status=status.HTTP_201_CREATED)
-
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
         except models.User.DoesNotExist:
             return Response(f"User with id {id} not found", status=status.HTTP_404_NOT_FOUND)
         except Exception as e:

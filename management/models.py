@@ -22,11 +22,20 @@ class User(models.Model):
 
 # Candidate
 class Candidate(models.Model):
-    candidate_id = models.IntegerField(primary_key=True, editable=False)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='candidate_user', db_column='user_id')
+    candidate_id = models.AutoField(primary_key=True)  # Mude para AutoField
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='candidate_user',
+        db_column='user_id'
+    )
     speech = models.TextField()
     registration_date = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user'], name='unique_candidate_per_user')  # Adiciona a restrição
+        ]
     def __str__(self):
         return f"Nome Candidato: {self.user.name}, Discurso: {self.speech}, Data inscricao: {self.registration_date}"
 
