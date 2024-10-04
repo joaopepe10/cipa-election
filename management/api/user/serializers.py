@@ -6,7 +6,13 @@ class UserSerializer(serializers.ModelSerializer):
         model = models.User
         fields = ['name', 'email', 'user_id']
 
-class CandidateSerializer(serializers.ModelSerializer):
+class CandidateRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Candidate
         fields = ['speech']
+
+class CandidateResponseSerializer(serializers.ModelSerializer):
+    # Permitir valores nulos e campos opcionais
+    class Meta:
+        model = models.Candidate
+        fields = ['speech', 'user']

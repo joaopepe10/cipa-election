@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from management import models
-from management.api.user.serializers import UserSerializer, CandidateSerializer
+from management.api.user.serializers import UserSerializer, CandidateRequestSerializer, CandidateResponseSerializer
 
 
 @api_view(['GET'])
@@ -43,22 +43,28 @@ def apply_candidate(request, id):
         try:
             user = models.User.objects.get(user_id=id)
             if user is None:
-                return Response(f"User with id not found {id}",status=status.HTTP_404_NOT_FOUND)
-            new_candidate = request.data
-            new_candidate['user'] = user
-            new_candidate['user_id'] = id
-            serializer = CandidateSerializer(data=new_candidate)
+                return Response(f"User with id not found {id}", status=status.HTTP_404_NOT_FOUND)
 
+            # Usar o DTO de entrada para validação
+            serializer = CandidateRequestSerializer(data=request.data)
             if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
+                # Cria o candidato com os dados validados e o user
+                candidate = serializer.save(user=user)
+
+                # Usar o DTO de saída para a resposta, passando a instância do candidato
+                candidate_response = CandidateResponseSerializer(candidate)  # Sem 'data'
+                return Response(candidate_response.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except models.User.DoesNotExist:
+            return Response(f"User with id {id} not found", status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
-            return Response(str(e), status=status.HTTP_404_NOT_FOUND)
+            return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
+
     return Response('Ocorreu um erro', status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
 def get_candidates(request):
     if request.method == 'GET':
         candidates = models.Candidate.objects.all()
-        serializer = CandidateSerializer(candidates, many=True)
+        serializer = CandidateRequestSerializer(candidates, many=True)
         return Response(serializer.data)
