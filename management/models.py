@@ -12,8 +12,8 @@ from django.utils import timezone
 
 class User(models.Model):
     user_id = models.IntegerField(primary_key=True, editable=False)
-    name = models.CharField(max_length=50, default='')
-    email = models.CharField(max_length=50, default='', unique=True)
+    name = models.CharField(max_length=50, default='', blank=False)
+    email = models.CharField(max_length=50, default='', unique=True, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
     candidate_id = models.IntegerField(null=True, blank=True, db_column='candidate_id')
 
@@ -27,9 +27,10 @@ class Candidate(models.Model):
         User,
         on_delete=models.CASCADE,
         related_name='candidate_user',
-        db_column='user_id'
+        db_column='user_id',
+        blank=False
     )
-    speech = models.TextField()
+    speech = models.TextField(unique=True, blank=False)
     registration_date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
