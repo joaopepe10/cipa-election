@@ -24,7 +24,7 @@ class User(models.Model):
 
 # Candidate
 class Candidate(models.Model):
-    candidate_id = models.AutoField(primary_key=True)  # Mude para AutoField
+    candidate_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -37,7 +37,7 @@ class Candidate(models.Model):
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=['user'], name='unique_candidate_per_user')  # Adiciona a restrição
+            models.UniqueConstraint(fields=['user'], name='unique_candidate_per_user')
         ]
     def __str__(self):
         return f"Nome Candidato: {self.user.name}, Discurso: {self.speech}, Data inscricao: {self.registration_date}"

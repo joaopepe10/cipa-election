@@ -11,6 +11,11 @@ class CandidateRequestSerializer(serializers.ModelSerializer):
         model = models.Candidate
         fields = ['speech']
 
+class UpdateSpeechSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Candidate
+        fields = ['speech']
+
 
 class CandidateResponseSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)

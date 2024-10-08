@@ -10,11 +10,13 @@ urlpatterns = [
     path('user/<str:id>', user.get_user_by_id, name='get_user_by_id'),
     path('user/<str:id>/apply-candidate', candidate.apply_candidate, name='apply_candidate'),
     path('candidates/', candidate.get_candidates, name='get_candidates'),
+    path('candidates/<str:candidate_id>', candidate.update_speech, name='update_speech'),
     path('candidates/<str:candidate_id>', candidate.delete_candidate, name='delete_candidate'),
     path('election', election.create_election, name='create_election'),
     path('election/<str:election_id>', election.get_election_by_id, name='get_election_by_id'),
     path('elections', election.get_elections, name='get_elections'),
     path('elections/insert-canidate/<str:election_id>/<str:candidate_id>', election.insert_candidate, name='insert_candidate'),
+
 ]
 
 
