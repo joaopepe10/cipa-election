@@ -1,4 +1,6 @@
 from django.db import models
+from enum import Enum
+
 from django.utils import timezone
 
 # CRIAR MODELO BANCO DE DADOS
@@ -40,9 +42,25 @@ class Candidate(models.Model):
     def __str__(self):
         return f"Nome Candidato: {self.user.name}, Discurso: {self.speech}, Data inscricao: {self.registration_date}"
 
+class ElectionStatus(Enum):
+    NOT_STARTED = 'registered'
+    IN_PROGRESS = 'in_voting'
+    COMPLETED = 'closed '
+
+    @classmethod
+    def choices(cls):
+        return [(key.value, key.name) for key in cls]
+
 class Election(models.Model):
     election_id = models.IntegerField(primary_key=True, editable=False)
     candidates = models.ForeignKey(Candidate, on_delete=models.CASCADE)
+    status = models.CharField(
+        max_length=20,
+        choices=ElectionStatus.choices(),
+        default=ElectionStatus.NOT_STARTED.value
+    )
+    start_date = models.DateTimeField(auto_now_add=True)
+    end_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Election id: {self.election_id}"
+        return f'Election {self.election_id} - Status: {self.status}'
