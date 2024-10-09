@@ -35,10 +35,6 @@ class Candidate(models.Model):
     speech = models.TextField(unique=True, blank=False)
     registration_date = models.DateTimeField(auto_now_add=True)
 
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=['user'], name='unique_candidate_per_user')
-        ]
     def __str__(self):
         return f"Nome Candidato: {self.user.name}, Discurso: {self.speech}, Data inscricao: {self.registration_date}"
 
