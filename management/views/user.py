@@ -15,7 +15,13 @@ def create_user(request):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response({'msg': 'User created successfully'}, status=status.HTTP_201_CREATED)
+            return Response(
+                {
+                    'msg': 'User created successfully',
+                    'user_id': serializer.data['user_id'],
+                    'name': serializer.data['name'],
+                    'email': serializer.data['email']
+                }, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     if request.method == 'GET':

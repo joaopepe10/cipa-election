@@ -13,7 +13,7 @@ from django.utils import timezone
 # python manage.py runserver
 
 class User(models.Model):
-    user_id = models.IntegerField(primary_key=True, editable=False)
+    user_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50, default='', blank=False)
     email = models.EmailField(max_length=255, unique=True, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -48,7 +48,7 @@ class ElectionStatus(Enum):
         return [(key.value, key.name) for key in cls]
 
 class Election(models.Model):
-    election_id = models.IntegerField(primary_key=True, editable=False)
+    election_id = models.AutoField(primary_key=True)
     candidates = models.ManyToManyField(Candidate)
     status = models.CharField(
         max_length=20,

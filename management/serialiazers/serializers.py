@@ -4,7 +4,7 @@ from management import models
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.User
-        fields = ['name', 'email', 'user_id']
+        fields = ['user_id', 'name', 'email']
 
 class CandidateRequestSerializer(serializers.ModelSerializer):
     class Meta:
@@ -25,7 +25,7 @@ class CandidateResponseSerializer(serializers.ModelSerializer):
         def validate(self, data):
             # Verifica se o usuário já tem um candidato
             if models.Candidate.objects.filter(user=data['user']).exists():
-                raise serializers.ValidationError("Este usuário já possui um candidato.")
+                raise serializers.ValidationError("This user already has a candidate.")
             return data
 
 class CreateElectionSerializer(serializers.ModelSerializer):
@@ -33,7 +33,7 @@ class CreateElectionSerializer(serializers.ModelSerializer):
     end_date = serializers.DateTimeField(input_formats=['%Y-%m-%dT%H:%M'])
     class Meta:
         model = models.Election
-        fields = ['start_date', 'end_date']
+        fields = ['start_date', 'end_date', 'status']
 
 class GetElectionSerializer(serializers.ModelSerializer):
     candidates = CandidateResponseSerializer(many=True)  # Serializa a lista de candidatos corretamente

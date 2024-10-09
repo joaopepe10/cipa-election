@@ -31,7 +31,8 @@ def elections(request):
                 {
                     'msg': 'Election created successfully!',
                     'start_date': serializer.data['start_date'],
-                    'end_date': serializer.data['end_date']
+                    'end_date': serializer.data['end_date'],
+                    'status': serializer.data['status']
                 },
                 status=status.HTTP_201_CREATED
             )
