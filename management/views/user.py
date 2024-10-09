@@ -5,9 +5,7 @@ from django.shortcuts import get_object_or_404
 
 from management import models
 from management.serialiazers.serializers import (
-    UserSerializer,
-    CandidateRequestSerializer,
-    CandidateResponseSerializer
+    UserSerializer
 )
 
 
