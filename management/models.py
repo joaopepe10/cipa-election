@@ -15,7 +15,7 @@ from django.utils import timezone
 class User(models.Model):
     user_id = models.IntegerField(primary_key=True, editable=False)
     name = models.CharField(max_length=50, default='', blank=False)
-    email = models.CharField(max_length=50, default='', unique=True, blank=False)
+    email = models.EmailField(max_length=255, unique=True, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
     candidate_id = models.IntegerField(null=True, blank=True, db_column='candidate_id')
 
@@ -36,12 +36,12 @@ class Candidate(models.Model):
     registration_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Nome Candidato: {self.user.name}, Discurso: {self.speech}, Data inscricao: {self.registration_date}"
+        return f"name: {self.user.name}, speech: {self.speech}, date_apply: {self.registration_date}"
 
 class ElectionStatus(Enum):
-    NOT_STARTED = 'registered'
-    IN_PROGRESS = 'in_voting'
-    COMPLETED = 'closed '
+    NOT_STARTED = 'NOT_STARTED'
+    IN_PROGRESS = 'IN_PROGRESS'
+    COMPLETED = 'COMPLETED '
 
     @classmethod
     def choices(cls):

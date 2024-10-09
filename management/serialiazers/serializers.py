@@ -39,7 +39,7 @@ class GetElectionSerializer(serializers.ModelSerializer):
     candidates = CandidateResponseSerializer(many=True)  # Serializa a lista de candidatos corretamente
     class Meta:
         model = models.Election
-        fields = ['election_id', 'candidates', 'start_date', 'end_date']
+        fields = ['election_id','status' ,'candidates', 'start_date', 'end_date']
 
 class UpdateStatusElectionSerializer(serializers.ModelSerializer):
     class Meta:

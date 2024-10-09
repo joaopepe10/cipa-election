@@ -11,21 +11,49 @@ from management.serialiazers.serializers import (
 )
 
 
-@api_view(['POST'])
+@api_view(['POST', 'GET'])
 def elections(request):
     if request.method == 'POST':
         serializer = CreateElectionSerializer(data=request.data)
+
+        if validate_dates(serializer):
+            return Response(
+                {
+                    'error': 'An election already exists with the same start or end date. Please choose different dates.'
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Valida os dados do serializer
         if serializer.is_valid():
             serializer.save()
-            return Response({
-                'msg': f'Election created successfully from {serializer.data['start_date']} until {serializer.data['end_date']}'},
-                status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {
+                    'msg': 'Election created successfully!',
+                    'start_date': serializer.data['start_date'],
+                    'end_date': serializer.data['end_date']
+                },
+                status=status.HTTP_201_CREATED
+            )
+
+        # Se os dados não forem válidos, retornamos erros mais claros
+        return Response(
+            {
+                'error': 'Error creating the election. Check the data provided.',
+                'details': serializer.errors
+            },
+            status=status.HTTP_400_BAD_REQUEST
+        )
 
     if request.method == 'GET':
         election = models.Election.objects.all()
         serializer = GetElectionSerializer(election, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+def validate_dates(serializer):
+    return models.Election.objects.filter(start_date=serializer.initial_data.get('start_date')).exists() or \
+        models.Election.objects.filter(end_date=serializer.initial_data.get('end_date')).exists()
 
 
 @api_view(['GET'])
@@ -51,7 +79,7 @@ def insert_candidate(request, election_id, user_id):
     if election.candidates.filter(user=user).exists():
         return Response(
             {
-                "error": "Este usuário já está inscrito nesta eleição.",
+                "error": "This user is already registered for this election.",
                 "id": user_id,
                 "name": user.name,
             },
