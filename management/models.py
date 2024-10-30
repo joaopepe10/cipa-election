@@ -60,3 +60,9 @@ class Election(models.Model):
 
     def __str__(self):
         return f'Election {self.election_id} - Status: {self.status}'
+
+class Vote(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    election = models.ForeignKey(Election, on_delete=models.CASCADE)
+    candidate = models.ForeignKey(Candidate, on_delete=models.CASCADE, related_name='votes')
+    vote_date = models.DateTimeField(default=timezone.now)

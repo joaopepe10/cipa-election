@@ -1,9 +1,14 @@
+from datetime import timezone
+
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import get_object_or_404
+from django.utils import timezone
+
 
 from management import models
+from management.models import ElectionStatus
 from management.serialiazers.serializers import (
     CreateElectionSerializer,
     CandidateRequestSerializer,
@@ -90,8 +95,10 @@ def insert_candidate(request, election_id, user_id):
     if candidate_serializer.is_valid():
         candidate = candidate_serializer.save(user=user)
         election.candidates.add(candidate)
+
+        election.status = ElectionStatus.IN_PROGRESS.value
+
         election.save()
         response = GetElectionSerializer(election).data
         return Response(data=response, status=status.HTTP_201_CREATED)
-
     return Response(candidate_serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -23,7 +23,6 @@ class CandidateResponseSerializer(serializers.ModelSerializer):
         model = models.Candidate
         fields = ['candidate_id','speech', 'user', 'registration_date']
         def validate(self, data):
-            # Verifica se o usuário já tem um candidato
             if models.Candidate.objects.filter(user=data['user']).exists():
                 raise serializers.ValidationError("This user already has a candidate.")
             return data
@@ -36,7 +35,7 @@ class CreateElectionSerializer(serializers.ModelSerializer):
         fields = ['start_date', 'end_date', 'status']
 
 class GetElectionSerializer(serializers.ModelSerializer):
-    candidates = CandidateResponseSerializer(many=True)  # Serializa a lista de candidatos corretamente
+    candidates = CandidateResponseSerializer(many=True)
     class Meta:
         model = models.Election
         fields = ['election_id','status' ,'candidates', 'start_date', 'end_date']
@@ -45,3 +44,12 @@ class UpdateStatusElectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Election
         fields = 'status'
+
+class CreateVoteDto(serializers.Serializer):
+    election_id = serializers.IntegerField()
+    candidate_id = serializers.IntegerField()
+
+class VoteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Vote
+        fields = ['id', 'user', 'election', 'candidate', 'vote_date']
