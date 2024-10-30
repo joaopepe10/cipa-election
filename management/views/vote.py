@@ -33,8 +33,9 @@ def post_vote(request):
         election = get_object_or_404(models.Election, pk=dto.validated_data['election'])
         candidate = get_object_or_404(models.Candidate, pk=dto.validated_data['candidate'])
 
+        candidate.count_votes += 1
         vote = Vote.objects.create(user=user, election=election, candidate=candidate)
-
+        candidate.save()
         response = VoteSerializer(vote).data
         return Response(data=response, status=status.HTTP_201_CREATED)
 
