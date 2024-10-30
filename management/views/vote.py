@@ -16,7 +16,7 @@ def post_vote(request):
         if not dto.is_valid():
             return Response(
                 {
-                    'error': 'Invalid data',
+                    'error': 'Dados inválidos.',
                     'details': dto.errors
                 },
                 status=status.HTTP_400_BAD_REQUEST
@@ -24,7 +24,7 @@ def post_vote(request):
         if Vote.objects.filter(user_id=dto.validated_data['user'], election_id=dto.validated_data['election']).exists():
             return Response(
                 {
-                    'error': 'User already voted',
+                    'error': 'Usuario já votou!',
                 },
                 status=status.HTTP_400_BAD_REQUEST
             )

@@ -20,7 +20,7 @@ def elections(request):
         if validate_dates(serializer):
             return Response(
                 {
-                    'error': 'An election already exists with the same start or end date. Please choose different dates.'
+                    'error': 'Já existe uma eleição com esta mesma data.'
                 },
                 status=status.HTTP_400_BAD_REQUEST
             )
@@ -30,7 +30,7 @@ def elections(request):
             serializer.save()
             return Response(
                 {
-                    'msg': 'Election created successfully!',
+                    'msg': 'Eleição criada com sucesso!',
                     'start_date': serializer.data['start_date'],
                     'end_date': serializer.data['end_date'],
                     'status': serializer.data['status']
@@ -41,7 +41,7 @@ def elections(request):
         # Se os dados não forem válidos, retornamos erros mais claros
         return Response(
             {
-                'error': 'Error creating the election. Check the data provided.',
+                'error': 'Error ao tentar criar uma nova eleição.',
                 'details': serializer.errors
             },
             status=status.HTTP_400_BAD_REQUEST
@@ -69,7 +69,7 @@ def get_election_by_id(request, election_id):
 def delete_candidate(request, election_id):
     election = get_object_or_404(models.Candidate, candidate_id=election_id)
     election.delete()
-    msg = {'msg': f'Election {election_id} deleted successfully'}
+    msg = {'msg': f'Eleição {election_id} deletada com sucesso.'}
     return Response(data=msg, status=status.HTTP_204_NO_CONTENT)
 
 
@@ -81,7 +81,7 @@ def insert_candidate(request, election_id, user_id):
     if election.candidates.filter(user=user).exists():
         return Response(
             {
-                "error": "This user is already registered for this election.",
+                "error": "Este usuário ja existe nesta eleição.",
                 "id": user_id,
                 "name": user.name,
             },

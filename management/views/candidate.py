@@ -20,7 +20,7 @@ class CandidateDetailView(RetrieveUpdateDestroyAPIView):
 
     def delete(self, request, *args, **kwargs):
         response = super().delete(request, *args, **kwargs)
-        return Response({'msg': f"Candidate {kwargs['candidate_id']} deleted successfully"}, status=status.HTTP_200_OK)
+        return Response({'msg': f"Candidato {kwargs['candidate_id']} deletado com sucesso"}, status=status.HTTP_200_OK)
 
 class CandidateListView(ListAPIView):
     queryset = models.Candidate.objects.all()
