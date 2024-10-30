@@ -1,26 +1,33 @@
-from rest_framework import status
-from rest_framework.response import Response
-from rest_framework.decorators import api_view
 from django.shortcuts import get_object_or_404
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 from management import models
-from management.serialiazers.serializers import VoteSerializer, CreateVoteDto
+from management.models import Vote
+from management.serialiazers.serializers import VoteSerializer, SendVoteCandidateSerializer
+
 
 @api_view(['POST'])
-def create_vote(request):
+def post_vote(request):
+    if request.method == 'POST':
+        dto = SendVoteCandidateSerializer(data=request.data)
+        if not dto.is_valid() and Vote.objects.filter(user_id=dto['user'], election_id=dto['election']).exists():
+            return Response(
+            {
+                'error': 'User already voted',
+                'details': dto.errors
+            },
+            status=status.HTTP_400_BAD_REQUEST
+        )
 
-    dto = CreateVoteDto(data=request.data)
-    if not dto.is_valid():
-        return Response(dto.errors, status=status.HTTP_400_BAD_REQUEST)
-    election = get_object_or_404(models.Election, pk=dto.validated_data['election_id'])
-    candidate = get_object_or_404(models.Candidate, pk=dto.validated_data['candidate_id'])
+        user = get_object_or_404(models.User, pk=dto.validated_data['user'])
+        election = get_object_or_404(models.Election, pk=dto.validated_data['election'])
+        candidate = get_object_or_404(models.Candidate, pk=dto.validated_data['candidate'])
 
-    vote = models.Vote.objects.create(election=election, candidate=candidate)
-    serializer = VoteSerializer(vote)
-    return Response(serializer.data, status=status.HTTP_201_CREATED)
+        vote = Vote.objects.create(user=user, election=election, candidate=candidate)
+        vote.save()
+        response = VoteSerializer(vote).data
+        return Response(data=response, status=status.HTTP_201_CREATED)
 
-@api_view(['GET'])
-def get_vote_by_id(request, id):
-    vote = get_object_or_404(models.Vote, pk=id)
-    serializer = VoteSerializer(vote)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+
