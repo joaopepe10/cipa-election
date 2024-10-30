@@ -2,7 +2,7 @@ from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
 from management import models
-from management.models import Vote, Election
+from management.models import Vote, Election, ElectionStatus
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -36,6 +36,17 @@ class CreateElectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Election
         fields = ['start_date', 'end_date', 'status']
+
+class EndElectionSerializer(serializers.Serializer):
+    election_id = serializers.IntegerField()
+
+    def validate_election_id(self, value):
+        election = Election.objects.filter(election_id=value).first()
+        if not election:
+            raise serializers.ValidationError("Eleição não encontrada.")
+        if election.status != ElectionStatus.IN_PROGRESS.value:
+            raise serializers.ValidationError("A eleição não está em andamento.")
+        return value
 
 class GetElectionSerializer(serializers.ModelSerializer):
     candidates = CandidateResponseSerializer(many=True)

@@ -4,11 +4,11 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from management import models
-from management.models import ElectionStatus
+from management.models import ElectionStatus, Election, Candidate
 from management.serialiazers.serializers import (
     CreateElectionSerializer,
     CandidateRequestSerializer,
-    GetElectionSerializer
+    GetElectionSerializer, EndElectionSerializer
 )
 
 
@@ -98,3 +98,34 @@ def insert_candidate(request, election_id, user_id):
         response = GetElectionSerializer(election).data
         return Response(data=response, status=status.HTTP_201_CREATED)
     return Response(candidate_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+def finish(request):
+    serializer = EndElectionSerializer(data=request.data)
+    if serializer.is_valid():
+        election = Election.objects.get(election_id=serializer.validated_data['election_id'])
+
+        candidate_votes = {}
+        for candidate in election.candidates.all():
+            candidate_votes[candidate.candidate_id] = candidate.votes.count()
+
+        winner_id = max(candidate_votes, key=candidate_votes.get)
+        winner = Candidate.objects.get(candidate_id=winner_id)
+
+        election.status = ElectionStatus.COMPLETED.value
+        election.save()
+
+        return Response(
+            {
+                'message': 'Eleição encerrada com sucesso.',
+                'winner': {
+                    'candidate_id': winner.candidate_id,
+                    'name': winner.user.name,
+                    'vote_count': candidate_votes[winner_id],
+                }
+            },
+            status=status.HTTP_200_OK
+        )
+
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
