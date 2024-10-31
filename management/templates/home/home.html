@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Votação CIPA - Login</title>
     <link rel="stylesheet" href="style.css">
- 
 </head>
 <body>
     <div class="container">
@@ -22,19 +21,16 @@
                 <label for="lembrar">Deseja manter-se autenticado?</label>
             </div>
 
-            <div class="checkbox">
-                <input type="checkbox" id="novoUsuario" name="novoUsuario">
-                <label for="novoUsuario">Cadastrar Novo Usuário</label>
-            </div>
-
             <button type="submit" class="button">Entrar</button>
         </form>
+        
+        <button onclick="irParaCadastro()" class="button" style="background-color: #007bff; margin-top: 10px;">CADASTRAR USUÁRIO</button>
+
         <p class="info-text">
             Para usuários cadastrados novos, favor consultar o setor de suporte para obter as credenciais de acesso.
         </p>
     </div>
 
     <script src="script.js"></script>
-
 </body>
 </html>
