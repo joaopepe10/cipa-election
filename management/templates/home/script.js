@@ -45,7 +45,7 @@ function fecharConfirmacao() {
 
 
 
-//Script responsável pela Tela Cadastro
+//Script responsável pela Tela Cadastro Usuário
 function applyCandidate() {
     // IDs de exemplo. Substitua pelos valores reais de `IdEleicao` e `IdUsuario`.
     const IdEleicao = 1; // ID da eleição
@@ -84,6 +84,10 @@ function applyCandidate() {
 //Script responsável pela tela Cadastro Candidato
 function irParaCandidato() {
     window.location.href = 'candidato.html';
+}
+
+function irParaCadastro() {
+    window.location.href = '../TelaCadastro.html';
 }
 
 function submitUserForm() {

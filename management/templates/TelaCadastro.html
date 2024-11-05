@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastrar Usuário</title>
+    <link rel="stylesheet" href="home/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Cadastrar Usuário</h1>
+
+        <form id="userForm">
+            <h3>Dados do Usuário</h3>
+            <label for="name">Nome:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="senha">Senha:</label>
+            <input type="password" id="senha" name="senha" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <button type="button" onclick="submitUserForm()">Cadastrar Usuário</button>
+        </form>
+
+        <button class="confirm-button" onclick="irParaCandidato()">Cadastrar como Candidato</button>
+
+        <p id="responseMsg"></p>
+    </div>
+
+    <script src="home/script.js"></script>
+</body>
+</html>

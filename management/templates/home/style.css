@@ -32,18 +32,20 @@ h1 {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
-    gap: 15px;
-    height: 300px;
+    padding: 10px;
 }
 
+/* Ajustes na classe candidate */
 .candidate {
     background-color: rgb(247, 247, 247);
     padding: 10px;
     border: 1px solid #000;
     border-radius: 8px;
-    width: 200px;
-    height: 100px;
+    width: calc(50% - 20px); /* Ajustar para caber duas colunas */
+    height: 100px; /* Aumentar um pouco a altura para acomodar o botão */
     text-align: center;
+    margin: 10px;
+    box-sizing: border-box; /* Certifica-se de que o padding está incluído na largura total */
 }
 
 .candidate p {
@@ -52,20 +54,26 @@ h1 {
     margin-bottom: 10px;
 }
 
-button {
-    background-color: #0096ff; /* Azul para o botão */
+/* Ajuste para os botões */
+.candidate button {
+    background-color: #4CAF50;
     color: white;
-    padding: 5px 10px;
+    padding: 8px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
+    width: 90%; /* Reduzir um pouco a largura do botão para não ultrapassar o container */
+    margin: 0 auto; /* Centralizar o botão */
+    box-sizing: border-box;
 }
 
-button:hover {
-    background-color: #007acc;
+
+.candidate button:hover {
+    background-color: #4CAF50;
 }
 
+/* Ajuste no botão de voltar */
 .back-button {
     background-color: #ff6347; /* Vermelho para o botão de voltar */
     color: white;
@@ -74,8 +82,10 @@ button:hover {
     border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
-    margin-top: 20px;
+    margin: 20px auto;
     font-size: 1em;
+    display: block; /* Garantir que o botão seja exibido em uma nova linha */
+    width: fit-content;
 }
 
 .back-button:hover {
@@ -153,6 +163,7 @@ input[type="password"] {
 .info-text {
     font-size: 12px;
     color: #666;
+    padding: 5px;
 }
 
 button {
