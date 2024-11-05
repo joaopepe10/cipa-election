@@ -87,7 +87,7 @@ function irParaCandidato() {
 }
 
 function irParaCadastro() {
-    window.location.href = '../TelaCadastro.html';
+    window.location.href = 'TelaCadastro.html';
 }
 
 function submitUserForm() {
