@@ -86,8 +86,9 @@ function irParaCandidato() {
     window.location.href = 'candidato.html';
 }
 
+//função que redireciona para tela cadastro de usuario
 function irParaCadastro() {
-    window.location.href = 'TelaCadastro.html';
+     window.location.href = `/api/users/cadastro-usuario`;
 }
 
 function submitUserForm() {
