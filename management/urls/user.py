@@ -3,6 +3,9 @@ from management.views import  user
 
 
 urlpatterns = [
-    path('', user.create_user, name='create_user'),
+    # DEFINIR A URL QUE A TELA SERA ACESSADA, IR PARA A VIEW CRIAR A FUNCAO DO RENDER PARA RENDERIZAR A TELA DESEJADA
+    path('', user.index, name='create_user'),
+    path('mais-uma-tela', user.outra_tela, name='create_user'),
+    path('create', user.create_user, name='create_user'),
     path('<str:user_id>', user.get_user_by_id, name='get_user_by_id'),
 ]

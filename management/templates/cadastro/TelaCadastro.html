@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Cadastrar Usuário</title>
-    <link rel="stylesheet" href="../static/home/style.css">
+    <link rel="stylesheet" href="../../static/home/style.css">
 </head>
 <body>
     <div class="container">
@@ -20,7 +20,7 @@
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required>
 
-            <button type="button" onclick="submitUserForm()">Cadastrar Usuário</button>
+            <button type="button" onclick="submitUserFormAxios()">Cadastrar Usuário</button>
         </form>
 
         <button class="confirm-button" onclick="irParaCandidato()">Cadastrar como Candidato</button>
@@ -28,6 +28,6 @@
         <p id="responseMsg"></p>
     </div>
 
-    <script src="../static/home/script.js"></script>
+    <script src="../../static/home/script.js"></script>
 </body>
 </html>
