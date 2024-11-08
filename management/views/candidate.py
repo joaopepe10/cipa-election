@@ -8,6 +8,10 @@ from management.serialiazers.serializers import (
     CandidateResponseSerializer,
     UpdateSpeechSerializer
 )
+from django.shortcuts import render
+
+def register_candidate(request):
+    return render(request, 'cadastro/TelaCadastroCandidato.html')
 
 class CandidateDetailView(RetrieveUpdateDestroyAPIView):
     queryset = models.Candidate.objects.all()

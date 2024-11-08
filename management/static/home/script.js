@@ -83,7 +83,7 @@ function applyCandidate() {
 
 //Script responsável pela tela Cadastro Candidato
 function irParaCandidato() {
-    window.location.href = 'candidato.html';
+    window.location.href = '/api/candidates/cadastro-candidato';
 }
 
 //função que redireciona para tela cadastro de usuario
