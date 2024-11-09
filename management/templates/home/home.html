@@ -9,7 +9,7 @@
 <body>
     <div class="container">
         <h2>Sistema de Votação CIPA</h2>
-        <form id="loginForm" action="/login" method="post">
+        <form id="loginForm" action="api/users/create" method="post">
             <label for="usuario">Usuário</label>
             <input type="text" id="usuario" name="usuario" placeholder="Digite o seu número de registro" required>
 
@@ -21,7 +21,7 @@
                 <label for="lembrar">Deseja manter-se autenticado?</label>
             </div>
 
-            <button type="submit" class="button">Entrar</button>
+            <button onclick="naoSeiAinda()" class="button">Entrar</button>
         </form>
 
         <button onclick="irParaCadastro()" class="button" style="background-color: #007bff; margin-top: 10px;">CADASTRAR USUÁRIO</button>
