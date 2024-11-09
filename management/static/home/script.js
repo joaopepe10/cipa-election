@@ -1,3 +1,8 @@
+// Tela inicial
+function irParaHome() {
+    window.location.href = '/';
+}
+
 // Script responsável pela tela de Votação
 
 function votar(candidato) {
@@ -104,7 +109,7 @@ function submitUserForm() {
         }
     };
 
-    fetch('/api/create_user/', {
+    fetch('/api/users/create', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -114,6 +119,7 @@ function submitUserForm() {
     .then(response => response.json())
     .then(data => {
         document.getElementById('responseMsg').innerText = data.msg || 'Usuário cadastrado com sucesso!';
+        irParaHome();
     })
     .catch(error => console.error('Erro:', error));
 }
@@ -167,7 +173,7 @@ function submitCandidateForm() {
         }
     };
 
-    fetch('/api/create_candidate/', {
+    fetch('/api/candidates/create_candidate/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -177,6 +183,7 @@ function submitCandidateForm() {
     .then(response => response.json())
     .then(data => {
         document.getElementById('responseMsg').innerText = data.msg || 'CANDIDATO CADASTRADO COM SUCESSO!!';
+        irParaHome();
     })
     .catch(error => console.error('Erro:', error));
 }

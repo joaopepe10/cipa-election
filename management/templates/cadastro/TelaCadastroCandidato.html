@@ -9,7 +9,7 @@
     <div class="container">
         <h1>Cadastrar Candidato</h1>
 
-        <form id="candidateForm">
+        <form id="candidateForm" action="api/candidates/create_candidate" method="post">
             <h3>Dados do Candidato</h3>
             <label for="speech">Discurso:</label>
             <input type="text" id="speech" name="speech" placeholder="Escreva sua frase de campanha" required>
