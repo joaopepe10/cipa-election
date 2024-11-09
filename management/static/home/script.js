@@ -88,7 +88,17 @@ function applyCandidate() {
 
 //Script responsável pela tela Cadastro Candidato
 function irParaCandidato() {
+    const name = document.getElementById('name').value;
+    const senha = document.getElementById('senha').value;
+    const email = document.getElementById('email').value;
+
+    if(name === "" || senha === "" || email === "") {
+        alert("Por favor, preencha todos os campos antes de prosseguir.");
+        return false;
+    }
     window.location.href = '/api/candidates/cadastro-candidato';
+    return true
+
 }
 
 //função que redireciona para tela cadastro de usuario
@@ -100,6 +110,11 @@ function submitUserForm() {
     const name = document.getElementById('name').value;
     const senha = document.getElementById('senha').value;
     const email = document.getElementById('email').value;
+
+    if(name === "" || senha === "" || email === "") {
+        alert("Por favor, preencha todos os campos antes de prosseguir.");
+        return false;
+    }
 
     const userData = {
         usuario: {
@@ -122,6 +137,8 @@ function submitUserForm() {
         irParaHome();
     })
     .catch(error => console.error('Erro:', error));
+
+    return true;
 }
 
 /*
@@ -163,6 +180,11 @@ function submitCandidateForm() {
     const startDate = document.getElementById('start_date').value;
     const endDate = document.getElementById('end_date').value;
 
+    if (speech === "" || startDate === "" ||  endDate === "") {
+      alert("Por favor, preencha todos os campos antes de prosseguir.");
+      return false;
+    }
+
     const candidateData = {
         candidato: {
             speech: speech
@@ -186,6 +208,8 @@ function submitCandidateForm() {
         irParaHome();
     })
     .catch(error => console.error('Erro:', error));
+
+    return true;
 }
 
 
