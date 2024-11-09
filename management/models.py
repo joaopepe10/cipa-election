@@ -2,6 +2,8 @@ from django.db import models
 from enum import Enum
 
 from django.utils import timezone
+from rest_framework.exceptions import ValidationError
+
 
 # CRIAR MODELO BANCO DE DADOS
 # py manage.py makemigrations
@@ -34,6 +36,7 @@ class Candidate(models.Model):
     )
     speech = models.TextField(unique=True, blank=False)
     registration_date = models.DateTimeField(auto_now_add=True)
+    count_votes = models.IntegerField(default=0)
 
     def __str__(self):
         return f"name: {self.user.name}, speech: {self.speech}, date_apply: {self.registration_date}"
@@ -61,8 +64,20 @@ class Election(models.Model):
     def __str__(self):
         return f'Election {self.election_id} - Status: {self.status}'
 
+
 class Vote(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     election = models.ForeignKey(Election, on_delete=models.CASCADE)
     candidate = models.ForeignKey(Candidate, on_delete=models.CASCADE, related_name='votes')
     vote_date = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        unique_together = ('user', 'election')
+
+    def clean(self):
+        if self.election.status != ElectionStatus.IN_PROGRESS.value:
+            raise ValidationError("A eleição não está em progresso, o voto não pode ser registrado.")
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super(Vote, self).save(*args, **kwargs)

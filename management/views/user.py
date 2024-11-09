@@ -27,7 +27,7 @@ def create_user(request):
             serializer.save()
             return Response(
                 {
-                    'msg': 'User created successfully',
+                    'msg': 'Usuario criado com sucesso!',
                     'user_id': serializer.data['user_id'],
                     'name': serializer.data['name'],
                     'email': serializer.data['email']
@@ -38,7 +38,6 @@ def create_user(request):
         users = models.User.objects.all()
         serializer = UserSerializer(users, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
 
 @api_view(['GET'])
 def get_user_by_id(request, user_id):

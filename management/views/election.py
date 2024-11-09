@@ -1,15 +1,19 @@
-from datetime import timezone
-
+from django.shortcuts import get_object_or_404
+from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+
 from rest_framework import status
 from django.shortcuts import get_object_or_404, render
+
+
+
 from management import models
-from management.models import ElectionStatus
+from management.models import ElectionStatus, Election, Candidate
 from management.serialiazers.serializers import (
     CreateElectionSerializer,
     CandidateRequestSerializer,
-    GetElectionSerializer
+    GetElectionSerializer, EndElectionSerializer
 )
 
 
@@ -24,7 +28,7 @@ def elections(request):
         if validate_dates(serializer):
             return Response(
                 {
-                    'error': 'An election already exists with the same start or end date. Please choose different dates.'
+                    'error': 'Já existe uma eleição com esta mesma data.'
                 },
                 status=status.HTTP_400_BAD_REQUEST
             )
@@ -34,7 +38,7 @@ def elections(request):
             serializer.save()
             return Response(
                 {
-                    'msg': 'Election created successfully!',
+                    'msg': 'Eleição criada com sucesso!',
                     'start_date': serializer.data['start_date'],
                     'end_date': serializer.data['end_date'],
                     'status': serializer.data['status']
@@ -45,7 +49,7 @@ def elections(request):
         # Se os dados não forem válidos, retornamos erros mais claros
         return Response(
             {
-                'error': 'Error creating the election. Check the data provided.',
+                'error': 'Error ao tentar criar uma nova eleição.',
                 'details': serializer.errors
             },
             status=status.HTTP_400_BAD_REQUEST
@@ -73,7 +77,7 @@ def get_election_by_id(request, election_id):
 def delete_candidate(request, election_id):
     election = get_object_or_404(models.Candidate, candidate_id=election_id)
     election.delete()
-    msg = {'msg': f'Election {election_id} deleted successfully'}
+    msg = {'msg': f'Eleição {election_id} deletada com sucesso.'}
     return Response(data=msg, status=status.HTTP_204_NO_CONTENT)
 
 
@@ -85,7 +89,7 @@ def insert_candidate(request, election_id, user_id):
     if election.candidates.filter(user=user).exists():
         return Response(
             {
-                "error": "This user is already registered for this election.",
+                "error": "Este usuário ja existe nesta eleição.",
                 "id": user_id,
                 "name": user.name,
             },
@@ -103,4 +107,36 @@ def insert_candidate(request, election_id, user_id):
         return Response(data=response, status=status.HTTP_201_CREATED)
     return Response(candidate_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+
+
+@api_view(['POST'])
+def finish(request):
+    serializer = EndElectionSerializer(data=request.data)
+    if serializer.is_valid():
+        election = Election.objects.get(election_id=serializer.validated_data['election_id'])
+
+        candidate_votes = {}
+        for candidate in election.candidates.all():
+            candidate_votes[candidate.candidate_id] = candidate.votes.count()
+
+        winner_id = max(candidate_votes, key=candidate_votes.get)
+        winner = Candidate.objects.get(candidate_id=winner_id)
+
+        election.status = ElectionStatus.COMPLETED.value
+        election.save()
+
+        return Response(
+            {
+                'message': 'Eleição encerrada com sucesso.',
+                'winner': {
+                    'candidate_id': winner.candidate_id,
+                    'name': winner.user.name,
+                    'vote_count': candidate_votes[winner_id],
+                }
+            },
+            status=status.HTTP_200_OK
+        )
+
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
