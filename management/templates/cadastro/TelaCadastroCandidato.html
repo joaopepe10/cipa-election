@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastrar Candidato</title>
+    <link rel="stylesheet" href="../../static/home/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Cadastrar Candidato</h1>
+
+        <form id="candidateForm" action="api/candidates/create_candidate" method="post">
+            <h3>Dados do Candidato</h3>
+            <label for="speech">Discurso:</label>
+            <input type="text" id="speech" name="speech" placeholder="Escreva sua frase de campanha" required>
+
+            <h3>Período da Eleição</h3>
+            <div class="date-container">
+                <div>
+                    <label for="start_date">Data e Hora de Início:</label>
+                    <input type="datetime-local" id="start_date" name="start_date" required>
+                </div>
+                <div>
+                    <label for="end_date">Data e Hora de Término:</label>
+                    <input type="datetime-local" id="end_date" name="end_date" required>
+                </div>
+            </div>
+
+            <button type="button" onclick="submitCandidateForm()">CONCLUIR CADASTRO</button>
+        </form>
+        
+        <p id="responseMsg"></p>
+    </div>
+
+    <script src="../../static/home/script.js"></script>
+</body>
+</html>

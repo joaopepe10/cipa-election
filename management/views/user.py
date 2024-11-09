@@ -2,11 +2,21 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import get_object_or_404
+from django.shortcuts import render
 
 from management import models
 from management.serialiazers.serializers import (
     UserSerializer
 )
+
+## RENDERIZAR A TELA DESEJADA COM SEU RESPECTIVO PATH
+## ENVIAR
+
+def index(request):
+    return render(request, 'home/home.html')
+
+def register_user(request):
+    return render(request, 'cadastro/TelaCadastro.html')
 
 
 @api_view(['POST', 'GET'])

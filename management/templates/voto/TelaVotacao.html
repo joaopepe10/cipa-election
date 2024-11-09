@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Votação</title>
+    <link rel="stylesheet" href="../../static/home/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>ESCOLHA O SEU CANDIDATO</h1>
+        <div class="candidates">
+            <div class="candidate">
+                <p><strong>WANDERSON</strong><br>VICEPRESIDENTE</p>
+                <p></p>
+                <button onclick="abrirConfirmacao('Wanderson', 'Vicepresidente')">VOTAR</button>
+            </div>
+            <div class="candidate">
+                <p><strong>CARLOS</strong><br>PRESIDENTE</p>
+                <button onclick="abrirConfirmacao('Carlos', 'Presidente')">VOTAR</button>
+            </div>
+            <div class="candidate">
+                <p><strong>JOÃO</strong><br>VICEPRESIDENTE</p>
+                <button onclick="abrirConfirmacao('João', 'Vicepresidente')">VOTAR</button>
+            </div>
+            <div class="candidate">
+                <p><strong>RODRIGO</strong><br>CONSELHEIRO</p>
+                <button onclick="abrirConfirmacao('Rodrigo', 'Conselheiro')">VOTAR</button>
+            </div>
+            <div class="candidate">
+                <p><strong>VOTO NULO</strong></p>
+                <button onclick="abrirConfirmacao('Voto Nulo', '')">VOTAR</button>
+            </div>
+        </div>
+        <button class="back-button" onclick="voltar()">⬅ VOLTAR</button>
+    </div>
+
+    <!-- Janela de confirmação -->
+    <div class="confirmacao" id="confirmacao">
+        <p>CANDIDATO SELECIONADO</p>
+        <p id="candidatoSelecionado"></p>
+        <button class="confirm-button" onclick="confirmarVoto()">ENTER</button>
+    </div>
+
+    <script src="../../static/home/script.js"></script>
+</body>
+</html>

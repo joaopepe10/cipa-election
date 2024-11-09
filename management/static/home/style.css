@@ -1,0 +1,214 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #2d2d2d; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    width: 500px;
+    padding: 20px;
+    background-color: hsl(0, 0%, 84%);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    font-size: 1.5em;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.candidates {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 10px;
+}
+
+/* Ajustes na classe candidate */
+.candidate {
+    background-color: rgb(247, 247, 247);
+    padding: 10px;
+    border: 1px solid #000;
+    border-radius: 8px;
+    width: calc(50% - 20px); /* Ajustar para caber duas colunas */
+    height: 100px; /* Aumentar um pouco a altura para acomodar o botão */
+    text-align: center;
+    margin: 10px;
+    box-sizing: border-box; /* Certifica-se de que o padding está incluído na largura total */
+}
+
+.candidate p {
+    font-size: 0.9em;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Ajuste para os botões */
+.candidate button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 90%; /* Reduzir um pouco a largura do botão para não ultrapassar o container */
+    margin: 0 auto; /* Centralizar o botão */
+    box-sizing: border-box;
+}
+
+
+.candidate button:hover {
+    background-color: #4CAF50;
+}
+
+/* Ajuste no botão de voltar */
+.back-button {
+    background-color: #ff6347; /* Vermelho para o botão de voltar */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin: 20px auto;
+    font-size: 1em;
+    display: block; /* Garantir que o botão seja exibido em uma nova linha */
+    width: fit-content;
+}
+
+.back-button:hover {
+    background-color: #d1b7b2;
+}
+
+.confirmacao {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    background-color: #d3d3d3;
+    border: 1px solid #000;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+}
+
+.confirmacao p {
+    margin: 10px 0;
+    color: #333;
+    font-weight: bold;
+}
+
+.confirm-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.confirm-button:hover {
+    background-color: #45a049;
+}
+h2 {
+    text-align: center;
+    font-size: 18px;
+    color: #333;
+}
+label {
+    font-size: 14px;
+    color: #333;
+}
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.button {
+    width: 100%;
+    padding: 10px;
+    color: #fff;
+    background-color: #28a745;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+.button:hover {
+    background-color: #218838;
+}
+.checkbox {
+    margin-top: 10px;
+}
+.info-text {
+    font-size: 12px;
+    color: #666;
+    padding: 5px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    color: #fff;
+    background-color: #28a745;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 15px;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+#responseMsg {
+    font-size: 12px;
+    color: #666;
+    margin-top: 15px;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="datetime-local"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+.date-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.date-container input[type="datetime-local"] {
+    width: 48%;
+}
